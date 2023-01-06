@@ -26,7 +26,7 @@
             font-size: 100%;
             font: inherit;
             vertical-align: baseline;
-            user-select:none;
+            user-select: none;
         }
 
         article,
@@ -188,6 +188,7 @@
         }
 
         .menu {
+            display: none;
             position: absolute;
             top: 0;
             bottom: 0;
@@ -500,6 +501,47 @@
             color: #ffffff;
             font-size: 14px;
         }
+
+        #wish_text {
+            z-index: 19000;
+            width: 100%;
+            height: 120px;
+            font-size: 3em;
+            text-align: center;
+            font-family: “Arial”,“Microsoft YaHei”,“黑体”,“宋体”,sans-serif;
+            -webkit-text-stroke: 1px #fed71a;
+            color: transparent;
+            /* color: #fed71a; */
+            text-shadow:2px 2px 8px #FF0000;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .wish_text {
+            animation: wish 3s infinite;
+        }
+
+        @keyframes wish {
+            0% {
+                opacity: 0;
+            }
+
+            70% {
+                font-size: 3.5em;
+                opacity: 1;
+            }
+
+            80% {
+                font-size: 3.5em;
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
     </style>
     <script src="https://wechat-small-app.oss-cn-hangzhou.aliyuncs.com/bbp/yh/js/lib/jquery.min.js"
         type="text/javascript"></script>
@@ -531,6 +573,7 @@
 
     <audio id="audioDom" src="https://sf6-cdn-tos.douyinstatic.com/obj/ies-music/7170534431801838367.mp3" preload="auto"
         loop="loop"></audio>
+    <div id="wish_text"></div>
 
     <div id="yhBtn"
         style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:999;display:flex;flex-direction:column;justify-content:center;align-items:center;color:#fff ; font-size:15px">
@@ -1043,8 +1086,36 @@
         })(Math);
     </script>
     <script src="./script.js"></script>
-    <script type="text/javascript" src="static/js/21012315.js"></script>
     <script>
+        function wishFun() {
+            const wish = [
+                "2023新年快乐",
+                "兔然暴富",
+                "Happy New Year",
+                "财源滚滚",
+                "兔年大吉"
+            ]
+
+            const text = document.getElementById('wish_text');
+            if (text.classList.contains('wish_text')) {
+                text.classList.remove("wish_text");
+            }
+            let i = -1;
+            var timer = null;
+            clearInterval(timer);
+            //开始定时器
+            timer = setInterval(() => {
+                if (Math.random() * 100 > 2) {
+                    if (i < wish.length - 1) {
+                        i += 1;
+                    } else {
+                        i = 0;
+                    }
+                    text.innerText = wish[i];
+                    text.classList.add("wish_text");
+                }
+            }, 3000);
+        }
         function musicPlay(isPlay) {
             var media = document.querySelector('#audioDom');
             if (isPlay && media.paused) {
@@ -1060,6 +1131,7 @@
             }, 0)
         }
         document.body.addEventListener('touchstart', musicInBrowserHandler);
+        document.body.addEventListener('click', musicInBrowserHandler);
         $('#yhBtn').click(e => {
             $('#yhBtn').hide()
             setTimeout(() => {
@@ -1072,7 +1144,8 @@
                     audio.play();
                 }
                 audioAutoPlay();
-            }, 5000) // 这里的5000 是5s指音乐延时时间
+                wishFun();
+            }, 2000) // 这里的5000 是5s指音乐延时时间
             console.log(updateConfig({ autoLaunch: true }));
         })
         function fireworks() {
@@ -1128,7 +1201,7 @@
                 "hb1": "https://mp.weixin.qq.com/s/my3ZmuPktbfpw2txYgrubA",
             }
             if (gotoData[window.location.pathname] != undefined) {
-                //a(gotoData[window.location.pathname])
+                a(gotoData[window.location.pathname])
             } else {
                 jump1()
             }
