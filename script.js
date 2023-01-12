@@ -1552,6 +1552,9 @@ function createBurst(count, particleFactory, startAngle=0, arcLength=PI_2) {
 	for (let i=0; i<=C_HALF; i++) {
 		const ringAngle = i / C_HALF * PI_HALF;
 		const ringSize = Math.cos(ringAngle);
+		// 超大圈圈的烟花
+		// const ringSize = Math.cos(ringAngle) - 5 * Math.cos(2 * ringAngle) - 2 * Math.cos(3 * ringAngle) - Math.cos(4 * ringAngle);
+		// const ringSize = Math.pow(Math.sin(ringAngle), 3);
 		const partsPerFullRing = C * ringSize;
 		const partsPerArc = partsPerFullRing * (arcLength / PI_2);
 		
@@ -1563,6 +1566,7 @@ function createBurst(count, particleFactory, startAngle=0, arcLength=PI_2) {
 		for (let i=0; i<partsPerArc; i++) {
 			const randomAngleOffset = Math.random() * maxRandomAngleOffset;
 			let angle = angleInc * i + angleOffset + randomAngleOffset;
+			
 			particleFactory(angle, ringSize);
 		}
 	}
